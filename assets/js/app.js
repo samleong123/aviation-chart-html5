@@ -94,8 +94,17 @@ function renderChart(chartValue) {
     if (selectedChart) {
 
         const chartView = document.getElementById("chart-view-iframe");
-        chartView.src = selectedChart.value; // Set the PDF link in the chart view
-		document.getElementById("chart-view").classList.remove("d-none"); // Display
+        if (determineDevice() == "Android"){
+            var urlencoded_url = encodeURIComponent(selectedChart.value);
+            var proxy_url = `https://cfboost.samsam123.name.my/?url=${urlencoded_url}`;
+            var viewer_url = `./jsviewer.html#${proxy_url}`; 
+            chartView.src = viewer_url;
+        } else {
+            chartView.src = selectedChart.value;
+        }
+      
+        document.getElementById("chart-view").classList.remove("d-none"); // Display
+
 		
 
     } else {
@@ -124,4 +133,18 @@ function customAlert(title, message, type){
         text: message,
         icon: type
       });
+}
+
+function determineDevice(){
+    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+    // iOS / iPadOS / MacOS
+    if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+        return "iOS";
+    } 
+
+    // Android
+    if (/android/i.test(userAgent)) {
+        return "Android";
+    } 
 }
