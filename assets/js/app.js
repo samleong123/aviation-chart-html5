@@ -95,10 +95,12 @@ function renderChart(chartValue) {
 
         const chartView = document.getElementById("chart-view-iframe");
         if (determineDevice() == "Android"){
-            var urlencoded_url = encodeURIComponent(selectedChart.value);
+            var urlencoded_url = selectedChart.value;
             var proxy_url = `https://cfboost.samsam123.name.my/?url=${urlencoded_url}`;
-            var viewer_url = `./jsviewer.html#${proxy_url}`; 
+            var proxy_encode_url = encodeURIComponent(proxy_url);
+            var viewer_url = `./pdfviewer.html?url=${proxy_encode_url}`; 
             chartView.src = viewer_url;
+            console.log(viewer_url);
         } else {
             chartView.src = selectedChart.value;
         }
